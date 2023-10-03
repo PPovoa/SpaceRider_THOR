@@ -1,20 +1,18 @@
 #include "THOR.hpp"
 
-int Observational_Start(int* previousMode, int error_fromMode, int* nextMode){
-    int error=NO_error;
+void Observational_Start(StoredErrors storedErrors, int* previousMode, int* nextMode){
 
     printf("\nObservational mode ====\n");
 
-    printf("OBC turns ON Detector Unit & PDUs' power outputs\n");
-    printf("Detector Unit operation mode configuration\n");
+    printf("OBC turns ON Detector Unit\n"); //storedErrors.addError(ErrorHandler::DET_CantConnect);
+    printf("PDUs' power outputs\n"); //storedErrors.addError(ErrorHandler::PDU_CantConnect);
+    printf("Detector Unit configuration of operation mode\n"); //storedErrors.addError(ErrorHandler::DET_ConfigMode);
 
     while(*nextMode == MODE_OBS){
         printf("-Monitor Detector\n");
-        printf("  Get Temperature\n");
-        printf("  Get Current drawn\n");
-        printf("  Get Voltages levels\n");
-        if(error!=NO_error)
-            return error;
+        printf("  Get Temperature\n");//storedErrors.addError(ErrorHandler::DET_ErrorGetTemperature);
+        printf("  Get Current drawn\n");//storedErrors.addError(ErrorHandler::DET_ErrorGetCurrent);
+        printf("  Get Voltages levels\n");//storedErrors.addError(ErrorHandler::DET_ErrorGetVoltage);
 
         double DET_temp = 0.0; // Temporary!!!
         double DET_volt = 0.0; // Temporary!!!
@@ -45,6 +43,4 @@ int Observational_Start(int* previousMode, int error_fromMode, int* nextMode){
         *nextMode = MODE_DEBUG;
         //break;
     }
-
-    return error;
 }

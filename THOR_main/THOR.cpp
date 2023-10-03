@@ -1,8 +1,11 @@
 #include "THOR.hpp"
 
+std::multimap<std::pair<ErrorHandler::ErrorSource, uint16_t>, bool> StoredErrors::thrownErrors;
+
 int main(){
     int previousMode = 0, nextMode = MODE_COMMI;
     int error = NO_error;
+    StoredErrors storedErrors;
 
     printf("Booting...\n\n");
 
@@ -10,20 +13,20 @@ int main(){
         switch (nextMode)
         {
         case MODE_COMMI:
-            error = Commissioning_Start(&previousMode, error, &nextMode);
+            Commissioning_Start(storedErrors, &previousMode, &nextMode);
             // What to do if commissioning has an error??
             break;
         
         case MODE_HK:
-            error = Housekeeping_Start(&previousMode, error, &nextMode);
+            Housekeeping_Start(storedErrors, &previousMode, error, &nextMode);
             break;
         
         case MODE_OBS:
-            error = Observational_Start(&previousMode, error, &nextMode);
+            Observational_Start(storedErrors, &previousMode, &nextMode);
             break;
         
         case MODE_DEBUG:
-            error = Debug_Start(&previousMode, error, &nextMode);
+            Debug_Start(storedErrors, &previousMode, &nextMode);
             nextMode = EXIT_PROG;
             break;
         

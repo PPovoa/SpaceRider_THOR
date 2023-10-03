@@ -1,31 +1,26 @@
 #include "THOR.hpp"
 
-int Housekeeping_Start(int* previousMode, int error_fromMode, int* nextMode){
-    int error = NO_error;
+void Housekeeping_Start(StoredErrors storedErrors, int* previousMode, int error_fromMode, int* nextMode){
 
     printf("\nHousekeeping mode ====\n");
 
-    printf("Turn off PDU DET Outputs\n");
+    printf("Turn off PDU DET Outputs\n");//storedErrors.addError(ErrorHandler::SR_MMU_CantConnect);
 
     printf("-Monitor PDU\n");
-    printf("  Get Output state\n");
-    printf("  Get Temperature\n");
-    printf("  Get Current drawn\n");
-    printf("  Get Voltages levels\n");
-    if(error!=NO_error)
-        return error;
+    printf("  Get Output state\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetOuputState);
+    printf("  Get Temperature\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetTemperature);
+    printf("  Get Current drawn\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetCurrent);
+    printf("  Get Voltages levels\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetVoltage);
 
     printf("-Monitor Detector\n");
-    printf("  Get Temperature\n");
-    if(error!=NO_error)
-        return error;
+    printf("  Get Temperature\n");//storedErrors.addError(ErrorHandler::DET_ErrorGetTemperature);
 
     switch (*previousMode)
     {
     case MODE_COMMI:
-        if(IsAnError(error_fromMode)){
+        if(!storedErrors.hasNoErrors()){
             printf("Emergency message to Ground\n");
-            if(!IsErrorManageable(error_fromMode))
+            if(!IsErrorManageable(storedErrors.getThrownErrors()))
                 printf("Wait for Ground Intervention\n"); // THEN RECEIVE THE NEXT MODE
         }
         *previousMode = *nextMode;
@@ -35,7 +30,7 @@ int Housekeeping_Start(int* previousMode, int error_fromMode, int* nextMode){
 
     case MODE_DEBUG:
         printf("Emergency message to Ground\n");
-        if(IsErrorManageable(error_fromMode)){
+        if(IsErrorManageable(storedErrors.getThrownErrors())){
             *previousMode = *nextMode;
             *nextMode = MODE_OBS;
             printf("Enter observational mode\n");
@@ -46,6 +41,7 @@ int Housekeeping_Start(int* previousMode, int error_fromMode, int* nextMode){
             *previousMode = *nextMode;
             *nextMode = MODE_TEST;
         break;
+        
 
     case MODE_TEST:
         *previousMode = *nextMode;
@@ -65,15 +61,11 @@ int Housekeeping_Start(int* previousMode, int error_fromMode, int* nextMode){
         *nextMode = MODE_REBOOT;
         break;
     }
-
-    return error;
 }
 
-int IsErrorManageable(int error){
-    if(error >= 1 && error <= 5)
-        return 1;
-    else
-        return 0;
+// Adaptar funcao
+int IsErrorManageable(std::vector<std::pair<ErrorHandler::ErrorSource, uint16_t>> error){
+    return 1;
 }
 
 int IsAnError(int error){

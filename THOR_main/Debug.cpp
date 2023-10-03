@@ -1,27 +1,22 @@
 #include "THOR.hpp"
 
-int Debug_Start(int* previousMode, int error_fromMode, int* nextMode){
-    int error = NO_error;
+void Debug_Start(StoredErrors storedErrors, int* previousMode, int* nextMode){
 
     printf("\nDebug mode ====\n");
 
     printf("-Monitor PDU\n");
-    printf("  Get Temperature\n");
-    printf("  Get Current drawn\n");
-    printf("  Get Voltages levels\n");
-    if(error!=NO_error)
-        return error;
+    printf("  Get Temperature\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetTemperature);
+    printf("  Get Current drawn\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetCurrent);
+    printf("  Get Voltages levels\n");//storedErrors.addError(ErrorHandler::PDU_ErrorGetVoltage);
 
     printf("-Monitor OBC\n");
-    printf("  Get Temperature\n");
-    if(error!=NO_error)
-        return error;
+    printf("  Get Temperature\n");//storedErrors.addError(ErrorHandler::DET_ErrorGetTemperature);
 
 
     // DEFINIR CONDICAO PARA "KNOWN ERROR" !!!!!!!!!!!
-    if(error_fromMode >=1 & error_fromMode <= 5){ // known error
-        if(isAffecting_SCI_operations(error_fromMode)){
-            if(isErrorBearable(error_fromMode)){
+    if(isErrorKnown(storedErrors)){ // known error
+        if(isAffecting_SCI_operations(storedErrors)){
+            if(isErrorBearable(storedErrors)){
                 printf("Emergency message to Ground\n");
                 *nextMode = MODE_OBS;
             }
@@ -35,12 +30,12 @@ int Debug_Start(int* previousMode, int error_fromMode, int* nextMode){
 
     }
     else{ // unkown error
-        if(isAffecting_PL_operations(error_fromMode)){
+        if(isAffecting_PL_operations(storedErrors)){
             printf("Emergency message to Ground\n");
             *nextMode = MODE_HK;
         }
         else{
-            if(isErrorBearable(error_fromMode)){
+            if(isErrorBearable(storedErrors)){
                 printf("Emergency message to Ground\n");
                 *nextMode = MODE_OBS;
             }
@@ -50,20 +45,23 @@ int Debug_Start(int* previousMode, int error_fromMode, int* nextMode){
             }
         }
     }
-    return error;
+}
+
+int isErrorKnown(StoredErrors storedErrors){
+    return 1;
 }
 
 // to finish
-int isAffecting_SCI_operations(int error){
+int isAffecting_SCI_operations(StoredErrors storedErrors){
     return 0;
 }
 
 // to finish
-int isAffecting_PL_operations(int error){
+int isAffecting_PL_operations(StoredErrors storedErrors){
     return 0;
 }
 
 // to finish
-int isErrorBearable(int error){
+int isErrorBearable(StoredErrors storedErrors){
     return 0;
 }
