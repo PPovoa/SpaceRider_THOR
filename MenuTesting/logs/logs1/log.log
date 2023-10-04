@@ -1,0 +1,14 @@
+################# LOG OPENED (28/08/23 12:08:23.123) ###################### 
+(28/08/23 12:08:23.123) [core]: Initializing Pixet (1.7.8.956 Jun 28 2022, SDK)
+(28/08/23 12:08:23.124) [core]: Loading hw libraries (1)...
+(28/08/23 12:08:23.127) [core]: Added hw library libminipix.so
+(28/08/23 12:08:25.059) [core]: Initializing HW library libminipix.so (0 devices)...
+(28/08/23 12:08:25.059) [core]: Loading plugins (0)...
+(28/08/23 12:08:25.063) [core]: pxcInitialize (argc=0)
+(28/08/23 12:08:25.063) [core]: pxcGetDevicesCount: 0
+(28/08/23 12:08:25.063) [core]: pxcExit
+(28/08/23 12:08:25.066) [core]: All plugins unloaded.
+(28/08/23 12:08:25.066) [core]: Unloading HW libraries ...
+(28/08/23 12:08:25.067) [core]: Unloading HW library libminipix.so.
+(28/08/23 12:08:25.068) [core]: All HW libraries unloaded.
+(28/08/23 12:08:25.069) [core]: Log closed.
