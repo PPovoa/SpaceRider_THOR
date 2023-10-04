@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <Layout>
+        <Angles>0</Angles>
+        <Chips>0</Chips>
+        <Width>1</Width>
+        <Height>1</Height>
+    </Layout>
+    <Settings>
+        <Bias>0</Bias>
+        <SensorRefreshEnabled>false</SensorRefreshEnabled>
+        <SensorRefreshTime>0</SensorRefreshTime>
+        <SensorRefresh></SensorRefresh>
+        <ExtBiasSerial>-1</ExtBiasSerial>
+        <ExtBiasSrcIndex>0</ExtBiasSrcIndex>
+        <InterpolateMaskedPixels>false</InterpolateMaskedPixels>
+        <InterpolateMaskedPixelsFlags>0</InterpolateMaskedPixelsFlags>
+        <UseCalibration>false</UseCalibration>
+        <Polarity>true</Polarity>
+        <ConvertToaTime>true</ConvertToaTime>
+        <OperationMode>0</OperationMode>
+    </Settings>
+    <Parameters>
+        <CheckMaxChipTempInCPU>true</CheckMaxChipTempInCPU>
+        <CheckMaxTempInSW>true</CheckMaxTempInSW>
+        <DDBlockSize>6000</DDBlockSize>
+        <DDBuffSize>100</DDBuffSize>
+        <DataOverflowCheck>false</DataOverflowCheck>
+        <DebugLog>false</DebugLog>
+        <DummyAcqNegativePolarity>true</DummyAcqNegativePolarity>
+        <MaxAllowedChipTemp>55</MaxAllowedChipTemp>
+        <SendDummyToaPixels>false</SendDummyToaPixels>
+        <TemperatureReadBeforeAcqSerie>true</TemperatureReadBeforeAcqSerie>
+        <TemperatureReadBeforeEachAcq>false</TemperatureReadBeforeEachAcq>
+        <TrgOutEnable>false</TrgOutEnable>
+        <TrgOutLevel>0</TrgOutLevel>
+        <TrgReady>false</TrgReady>
+        <TrgStg>3</TrgStg>
+        <TrgT0SyncReset>false</TrgT0SyncReset>
+        <TrgTimestamp>false</TrgTimestamp>
+    </Parameters>
+    <Info>
+        <PixetVersion>1.7.8.956</PixetVersion>
+        <DateTime>1685977188</DateTime>
+        <DateTimeStr>Mon Jun  5 15:59:48.148113 2023</DateTimeStr>
+    </Info>
+</xml>

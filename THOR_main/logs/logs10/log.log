@@ -1,0 +1,4 @@
+################# LOG OPENED (04/10/23 11:39:46.518) ###################### 
+(04/10/23 11:39:46.518) [core]: Initializing Pixet (1.7.8.956 Jun 28 2022, SDK)
+(04/10/23 11:39:46.518) [core]: Loading hw libraries (1)...
+(04/10/23 11:39:46.520) [core]: Added hw library libminipix.so

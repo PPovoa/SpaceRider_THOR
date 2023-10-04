@@ -8,12 +8,14 @@
 #include <vector>
 #include <map>
 
-#define NO_error            0
-#define SR_MMU_error        1
+#include "pxcapi.h"
+
+#define NO_error            99
+/*#define SR_MMU_error        1
 #define OBC_MMU_error       2
 #define PDU_error           3
 #define DET_error           4
-#define DET_Subsys_error    5
+#define DET_Subsys_error    5*/
 
 #define MODE_COMMI  11
 #define MODE_HK     12
@@ -26,6 +28,14 @@
 #define DET_MAX_TEMP_THRESH 50 // Max temperature before considering overheating
 #define DET_MIN_TEMP_THRESH 40 // Temp to turn on the components in case of overheat
 #define DET_MAX_VOLT_THRESH 1  // Max voltage before considering arc discarging
+
+#define PAR_DD_BUFF_SIZE    "DDBuffSize"    // Data Driven Buffer Size [MB], default 100
+#define PAR_DD_BLOCK_SIZE   "DDBlockSize"   // Data Driven Block Size [B], default 66000
+#define PAR_TRG_STG         "TrgStg"        // 0=logical 0, 1 = logical 1, 2 = rising edge, 3 = falling edge
+#define PAR_DCC_LEVEL       "DataConsystencyCheckLevel"
+// sensitivity on data timestamp discontinuity in % (temporary experimental function, not on all devices)
+#define PAR_TEMP_CHIP       "TemperatureChip" 
+#define PAR_TEMP_CPU        "TemperatureCpu"
 
 class ErrorHandler {
 public:
@@ -57,6 +67,8 @@ public:
         DET_ErrorGetCurrent = 12,
 
         DET_ErrorGetVoltage = 13,
+
+        DET_ConfigMode = 14,
     };
 
     enum CommissioningErrorType{
@@ -69,8 +81,6 @@ public:
 
     enum ObservationalErrorType{
         Unknown_ObservationalError = 0,
-
-        DET_ConfigMode = 1,
     };
 
     enum DebugErrorType{
@@ -161,23 +171,28 @@ public:
     }
 };
 
-// Commissioning.c
+// Commissioning.cu
 void Commissioning_Start(StoredErrors storedErrors, int* previousMode, int* nextMode);
-void Connections_checkup(StoredErrors storedErrors);
+int Detector_setup(void);
 
-// Housekeeping.c
+// Housekeeping.cu
 void Housekeeping_Start(StoredErrors storedErrors, int* previousMode, int error_fromMode, int* nextMode);
 int IsErrorManageable(std::vector<std::pair<ErrorHandler::ErrorSource, uint16_t>> error);
 int IsAnError(int error);
 
-// Observational.c
+// Observational.cu
 void Observational_Start(StoredErrors storedErrors, int* previousMode, int* nextMode);
 
-// Debug.c
+// Debug.cu
 void Debug_Start(StoredErrors storedErrors, int* previousMode, int* nextMode);
+void ManageErrors(StoredErrors storedErrors, int* previousMode, int* nextMode);
 int isErrorKnown(StoredErrors storedErrors);
 int isAffecting_SCI_operations(StoredErrors storedErrors);// to finish
 int isAffecting_PL_operations(StoredErrors storedErrors);// to finish
 int isErrorBearable(StoredErrors storedErrors); // to finish
+
+// SCI_data.cu
+void printErrors(const char* fName, int rc); // to delete
+int ScientificData (double measTime, const char *FilePath);
 
 #endif
